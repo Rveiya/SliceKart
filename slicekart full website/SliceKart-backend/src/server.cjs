@@ -22,8 +22,8 @@ const PORT = process.env.PORT || 5000;
 
 /* -------------------- Middlewares -------------------- */
 app.use(cors({
-  origin: process.env.CORS_ORIGIN_CLIENT_URL,
-  methods: process.env.CORS_METHODS,
+  origin: "*",
+  methods: ["GET", "POST", "PUT", "DELETE"],
   credentials: true
 }));
 app.use("/api/payments/webhook", express.raw({ type: "application/json" }));
