@@ -1,0 +1,36 @@
+{
+  "name": "healthysip-backend",
+  "version": "1.0.0",
+  "description": "",
+  "main": "src/server.cjs",
+  "scripts": {
+    "dev:server": "node src/server.cjs",
+    "start": "node src/server.cjs",
+    "migrate": "node src/database/migrate.cjs",
+    "migrate:subscriptions": "node src/run-migration.cjs",
+    "seed": "node src/database/seed.cjs",
+    "db:setup": "npm run migrate && npm run seed",
+    "cron:subscriptions": "node src/cron/process-subscriptions.cjs",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "type": "commonjs",
+  "dependencies": {
+    "@aws-sdk/client-s3": "^3.965.0",
+    "@aws-sdk/s3-request-presigner": "^3.965.0",
+    "bcrypt": "^6.0.0",
+    "cors": "^2.8.5",
+    "dotenv": "^17.2.3",
+    "express": "^5.2.1",
+    "express-rate-limit": "^8.2.1",
+    "jsonwebtoken": "^9.0.3",
+    "multer": "^2.0.2",
+    "node-cron": "^4.2.1",
+    "pg": "^8.16.3",
+    "razorpay": "^2.9.6",
+    "uuid": "^13.0.0",
+    "xlsx": "^0.18.5"
+  }
+}
