@@ -22,9 +22,9 @@ const PORT = process.env.PORT || 5000;
 
 /* -------------------- Middlewares -------------------- */
 app.use(cors({
-  origin: "*",
+  origin: "https://slicekart-git-main-rveiya-dynamics-s-projects.vercel.app",
   methods: ["GET", "POST", "PUT", "DELETE"],
-  
+  credentials: true
 }));
 app.use("/api/payments/webhook", express.raw({ type: "application/json" }));
 app.use((req, res, next) => {
