@@ -3,10 +3,7 @@ import { AuthState, User } from '../types';
 import api, { authApi, ApiError } from '../services/api';
 
 // Response types for API calls
-interface VerifyResponse {
-    authenticated: boolean;
-    user: User;
-}
+
 
 interface LoginResponse {
     user: User;
@@ -37,31 +34,31 @@ export function AuthProvider({ children }: { children: ReactNode }) {
     const checkAuth = useCallback(async () => {
         try {
             // First try to verify current token
-            const verifyResponse = await authApi.verify() as { data: VerifyResponse };
+            const verifyResponse = await authApi.verify() as any;
 
-            if (verifyResponse.data.authenticated) {
-                setState({
-                    user: verifyResponse.data.user,
-                    isAuthenticated: true,
-                    isLoading: false,
-                });
-                return;
-            }
+if (verifyResponse && verifyResponse.data?.authenticated) {
+    setState({
+        user: verifyResponse.data.user,
+        isAuthenticated: true,
+        isLoading: false,
+    });
+    return;
+}
         } catch {
             // Token might be expired, try to refresh
             try {
                 await authApi.refresh();
                 // If refresh succeeded, verify again
-                const verifyResponse = await authApi.verify() as { data: VerifyResponse };
+                const verifyResponse = await authApi.verify() as any;
 
-                if (verifyResponse.data.authenticated) {
-                    setState({
-                        user: verifyResponse.data.user,
-                        isAuthenticated: true,
-                        isLoading: false,
-                    });
-                    return;
-                }
+if (verifyResponse && verifyResponse.data?.authenticated) {
+    setState({
+        user: verifyResponse.data.user,
+        isAuthenticated: true,
+        isLoading: false,
+    });
+    return;
+}
             } catch {
                 // Both verify and refresh failed
             }
