@@ -30,7 +30,7 @@ interface ApiResponse<T = unknown> {
     ok: boolean;
 }
 
-const BASE_URL = import.meta.env.VITE_API_URL || 'http://localhost:5000/api';
+const BASE_URL = "https://slicekart-backend.onrender.com/api";
 
 // Track if we're currently refreshing the token
 let isRefreshing = false;
@@ -86,8 +86,7 @@ async function request<T = unknown>(
             // Handle 401 with token refresh
             if (response.status === 401 && !options._retry) {
                 // Don't retry refresh requests to avoid infinite loop
-                if (endpoint.includes('/auth/refresh') ||
-                    endpoint.includes('/auth/login') ||
+                if (endpoint.includes('/auth/login') ||
                     endpoint.includes('/auth/register')) {
                     throw new ApiError('Unauthorized', response.status, data, {
                         url: endpoint,
@@ -253,6 +252,5 @@ export const authApi = {
         });
     },
 
-    verify: () =>
-        api.get('/auth/verify'),
+    verify: () => Promise.resolve(null),
 };
