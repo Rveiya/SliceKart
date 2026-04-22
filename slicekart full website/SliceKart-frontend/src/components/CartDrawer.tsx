@@ -190,6 +190,11 @@ export default function CartDrawer() {
         }
     };
 
+    // ─────────────────────────────────────────────────────────────
+    // FIX: coupon_code is now passed to the checkout API so the
+    // backend can validate it, apply the discount to the order
+    // total, and charge the correct amount via Razorpay.
+    // ─────────────────────────────────────────────────────────────
     const handlePlaceOrder = async () => {
         if (!selectedAddress) return;
 
@@ -201,7 +206,8 @@ export default function CartDrawer() {
                 delivery_fee: deliveryFee,
                 handling_fee: handlingFee,
                 payment_method: paymentMethod,
-                tip: tip
+                tip: tip,
+                coupon_code: selectedCoupon?.code   // ✅ FIX: send coupon to backend
             });
 
             // Determine the primary order for payment processing
@@ -278,7 +284,7 @@ export default function CartDrawer() {
                 }}
                 onTrackOrder={handleTrackOrder}
                 onBackToProducts={handleBackToProducts}
-                savedAmount={30}
+                savedAmount={couponDiscount > 0 ? couponDiscount : 30}
             />
         );
     }
@@ -443,6 +449,21 @@ export default function CartDrawer() {
                                         <div className="flex justify-between items-center">
                                             <span className="text-gray-500">Delivery Tip</span>
                                             <span className="text-gray-900">₹{tip}</span>
+                                        </div>
+                                    )}
+                                    {/* ✅ FIX: Show coupon discount row in payment step bill summary */}
+                                    {couponDiscount > 0 && (
+                                        <div className="flex justify-between items-center">
+                                            <span className="text-gray-500 flex items-center gap-1">
+                                                <Tag className="w-3 h-3 text-green-600" />
+                                                Coupon Discount
+                                                {selectedCoupon && (
+                                                    <span className="text-[10px] bg-green-100 text-green-700 px-1.5 py-0.5 rounded-full font-bold">
+                                                        {selectedCoupon.code}
+                                                    </span>
+                                                )}
+                                            </span>
+                                            <span className="text-green-600 font-medium">-₹{couponDiscount.toFixed(2)}</span>
                                         </div>
                                     )}
                                     <div className="pt-2 mt-1 border-t border-gray-100 flex justify-between items-center">
@@ -652,7 +673,9 @@ export default function CartDrawer() {
                                 ) : (
                                     <>
                                         {paymentMethod === 'ONLINE' && <CreditCard className="w-4 h-4" />}
-                                        {paymentMethod === 'ONLINE' ? 'Pay Now' : 'Place Order'}
+                                        {paymentMethod === 'ONLINE'
+                                            ? `Pay ₹${finalTotal.toFixed(2)}`
+                                            : `Place Order ₹${finalTotal.toFixed(2)}`}
                                     </>
                                 )}
                             </button>
@@ -667,7 +690,7 @@ export default function CartDrawer() {
                     }}
                     onTrackOrder={handleTrackOrder}
                     onBackToProducts={handleBackToProducts}
-                    savedAmount={30}
+                    savedAmount={couponDiscount > 0 ? couponDiscount : 30}
                 />
             </>
         );
@@ -958,10 +981,10 @@ export default function CartDrawer() {
                                     : 'bg-green-600 text-white hover:bg-green-700'
                                     }`}
                             >
-                                {hasStockIssues 
-                                    ? 'Fix Stock Issues to Continue' 
-                                    : selectedAddress 
-                                        ? 'Proceed to Checkout' 
+                                {hasStockIssues
+                                    ? 'Fix Stock Issues to Continue'
+                                    : selectedAddress
+                                        ? 'Proceed to Checkout'
                                         : 'Select Delivery Address'}
                             </button>
                         </div>
@@ -981,7 +1004,7 @@ export default function CartDrawer() {
                 }}
                 onTrackOrder={handleTrackOrder}
                 onBackToProducts={handleBackToProducts}
-                savedAmount={30}
+                savedAmount={couponDiscount > 0 ? couponDiscount : 30}
             />
         </>
     );
