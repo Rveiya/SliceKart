@@ -1,5 +1,6 @@
 import { Routes, Route, Navigate } from 'react-router-dom'
 import { Toaster } from 'react-hot-toast'
+import { Analytics } from '@vercel/analytics/react'
 import Layout from './components/Layout'
 import ProtectedRoute, { GuestRoute, AdminRoute } from './components/ProtectedRoute'
 import ScrollToTop from './components/ScrollToTop'
@@ -54,6 +55,7 @@ function App() {
                 }}
             />
             <ScrollToTop />
+            <Analytics />
             <Routes>
                 {/* Customer Routes */}
                 <Route path="/" element={<Layout />}>
