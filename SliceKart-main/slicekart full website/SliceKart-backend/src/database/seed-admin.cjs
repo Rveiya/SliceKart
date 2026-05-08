@@ -11,8 +11,8 @@ const { query, connectDB } = require("../config/db.cjs");
 
 const ADMIN_USER = {
     fullname: "Admin User",
-    email: "admin@healthysip.com",
-    password: "Admin@123", // Change this in production!
+    email: "slicekart.delivery@gmail.com",
+    password: "SliceKart2026#", // Change this in production!
     role: "ADMIN"
 };
 
