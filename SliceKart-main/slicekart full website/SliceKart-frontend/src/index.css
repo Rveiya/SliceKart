@@ -1,0 +1,240 @@
+/* ===== Tailwind CSS v4 Import ===== */
+@import "tailwindcss";
+
+/* ===== Theme Configuration using Tailwind v4 CSS-first approach ===== */
+@theme {
+  /* Brand Colors */
+  --color-brand-green: #00A651;
+  --color-brand-green-dark: #008c44;
+  --color-brand-green-light: #33b86b;
+
+  /* Mint Color Palette */
+  --color-mint-50: #F0FFF4;
+  --color-mint-100: #EBF5EB;
+  --color-mint-200: #E8F5E9;
+  --color-mint-300: #C8E6C9;
+
+  /* Custom Background - Warm Cream */
+  --color-warm-cream: #fffaf7;
+
+  /* Font Family */
+  --font-sans: 'Inter', system-ui, sans-serif;
+}
+
+/* ===== Base Styles ===== */
+@layer base {
+  body {
+    font-family: var(--font-sans);
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+  }
+
+  a {
+    text-decoration: none;
+    color: inherit;
+  }
+
+  button {
+    cursor: pointer;
+    border: none;
+    background: none;
+    font-family: inherit;
+  }
+
+  input,
+  textarea {
+    font-family: inherit;
+  }
+
+  img {
+    max-width: 100%;
+    display: block;
+  }
+
+  ul,
+  ol {
+    list-style: none;
+  }
+}
+
+/* ===== Custom Scrollbar ===== */
+::-webkit-scrollbar {
+  width: 8px;
+  height: 8px;
+}
+
+::-webkit-scrollbar-track {
+  background: #f1f1f1;
+  border-radius: 4px;
+}
+
+::-webkit-scrollbar-thumb {
+  background: var(--color-brand-green);
+  border-radius: 4px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: var(--color-brand-green-dark);
+}
+
+/* ===== Custom Utility Classes ===== */
+@layer utilities {
+
+  /* Warm cream background */
+  .bg-warm-cream {
+    background-color: var(--color-warm-cream);
+  }
+
+  /* Mint backgrounds */
+  .bg-mint-50 {
+    background-color: var(--color-mint-50);
+  }
+
+  .bg-mint-100 {
+    background-color: var(--color-mint-100);
+  }
+
+  .bg-mint-200 {
+    background-color: var(--color-mint-200);
+  }
+
+  /* Brand Green */
+  .bg-brand-green {
+    background-color: var(--color-brand-green);
+  }
+
+  .text-brand-green {
+    color: var(--color-brand-green);
+  }
+
+  .border-brand-green {
+    border-color: var(--color-brand-green);
+  }
+
+  /* Custom gradient presets */
+  .bg-gradient-green {
+    background-image: linear-gradient(to bottom right, #4ade80, #16a34a);
+  }
+
+  .bg-gradient-orange {
+    background-image: linear-gradient(to bottom right, #fb923c, #ea580c);
+  }
+
+  .bg-gradient-purple {
+    background-image: linear-gradient(to bottom right, #c084fc, #9333ea);
+  }
+
+  .bg-gradient-blue {
+    background-image: linear-gradient(to bottom right, #60a5fa, #2563eb);
+  }
+
+  .bg-gradient-green-dark {
+    background-image: linear-gradient(to bottom right, #16a34a, #15803d);
+  }
+
+  /* Custom height for header */
+  .h-18 {
+    height: 4.5rem;
+  }
+
+  /* Hide scrollbar */
+  .scrollbar-hide::-webkit-scrollbar {
+    display: none;
+  }
+
+  .scrollbar-hide {
+    -ms-overflow-style: none;
+    scrollbar-width: none;
+  }
+
+  /* Custom green shadow utilities */
+  .shadow-green-600\/20 {
+    box-shadow: 0 20px 25px -5px rgba(22, 163, 74, 0.2);
+  }
+
+  .hover\:shadow-green-600\/30:hover {
+    box-shadow: 0 25px 50px -12px rgba(22, 163, 74, 0.3);
+  }
+
+  /* Input field utility */
+  .input-field {
+    @apply w-full py-3 px-4 rounded-lg border border-gray-200 outline-none text-sm transition-all;
+  }
+
+  .input-field:focus {
+    border-color: var(--color-brand-green);
+    box-shadow: 0 0 0 3px rgba(0, 166, 81, 0.2);
+  }
+}
+
+/* ===== Component Styles ===== */
+@layer components {
+
+  /* Search container styles */
+  .search-container {
+    @apply relative w-full lg:w-96;
+  }
+
+  .search-container input {
+    @apply w-full h-12 pl-12 pr-12 rounded-xl border border-gray-200 text-base bg-white shadow-sm transition-all;
+  }
+
+  .search-container input:focus {
+    @apply border-green-500 outline-none;
+    box-shadow: 0 0 0 3px rgba(34, 197, 94, 0.2);
+  }
+
+  .search-container .search-icon,
+  .search-container .mic-icon {
+    @apply absolute top-0 bottom-0 flex items-center;
+  }
+
+  .search-container .search-icon {
+    @apply left-4 pointer-events-none text-gray-400;
+  }
+
+  .search-container .mic-icon {
+    @apply right-4 text-gray-400 cursor-pointer bg-transparent border-none transition-colors hover:text-green-600;
+  }
+}
+
+/* ===== Custom Animation Keyframes ===== */
+@keyframes spin {
+  from {
+    transform: rotate(0deg);
+  }
+
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+/* Spinning animation for loaders */
+.animate-spin {
+  animation: spin 1s linear infinite;
+}
+
+/* ===== Responsive Adjustments for very small screens ===== */
+@media (max-width: 374px) {
+  .text-2xl {
+    font-size: 1.25rem;
+    line-height: 1.75rem;
+  }
+
+  .text-3xl {
+    font-size: 1.5rem;
+    line-height: 2rem;
+  }
+
+  .text-4xl {
+    font-size: 1.75rem;
+    line-height: 2.25rem;
+  }
+}
+
+/* ===== Fix for cart drawer width on small screens ===== */
+@media (max-width: 450px) {
+  .w-\[400px\] {
+    width: 100% !important;
+  }
+}
