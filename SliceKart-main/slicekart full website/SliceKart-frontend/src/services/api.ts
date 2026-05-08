@@ -30,7 +30,7 @@ interface ApiResponse<T = unknown> {
     ok: boolean;
 }
 
-const BASE_URL = "https://slicekart-backend.onrender.com/api";
+const BASE_URL = import.meta.env.VITE_API_URL || "https://slicekart.onrender.com/api";
 
 // Track if we're currently refreshing the token
 let isRefreshing = false;
