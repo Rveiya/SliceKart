@@ -17,6 +17,7 @@ import ordersService from '../services/orders';
 const orderStatuses = [
     { key: 'PENDING', label: 'Order Placed' },
     { key: 'ACCEPTED', label: 'Accepted' },
+    { key: 'ON_THE_WAY', label: 'On The Way' },
     { key: 'DELIVERED', label: 'Delivered' },
 ];
 
