@@ -1105,10 +1105,31 @@ router.get("/delivery-partners", async (req, res, next) => {
             });
         }
 
-        const partnersWithOrders = partnersResult.rows.map(p => ({
-            ...p,
-            active_orders: ordersCountMap[p.id] || 0
-        }));
+        // const partnersWithOrders = partnersResult.rows.map(p => ({
+        //     ...p,
+        //     active_orders: ordersCountMap[p.id] || 0
+        // }));
+
+        // Get completed orders count for each partner
+let completedCountMap = {};
+if (partnerIds.length > 0) {
+    const completedResult = await query(
+        `SELECT delivery_partner_id, COUNT(*) as count 
+         FROM orders 
+         WHERE delivery_partner_id = ANY($1) AND status = 'DELIVERED'
+         GROUP BY delivery_partner_id`,
+        [partnerIds]
+    );
+    completedResult.rows.forEach(r => {
+        completedCountMap[r.delivery_partner_id] = parseInt(r.count);
+    });
+}
+
+const partnersWithOrders = partnersResult.rows.map(p => ({
+    ...p,
+    active_orders: ordersCountMap[p.id] || 0,
+    completed_orders: completedCountMap[p.id] || 0
+}));
 
         const partnersWithUrls = await addPresignedUrlsToPartners(partnersWithOrders);
 
