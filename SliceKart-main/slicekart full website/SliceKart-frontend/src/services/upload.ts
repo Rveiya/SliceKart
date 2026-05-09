@@ -2,7 +2,7 @@
  * Upload Service - Handles file uploads to Cloudflare R2
  */
 
-const BASE_URL = import.meta.env.VITE_API_URL || 'https://slicekart.onrender.com/api';
+const BASE_URL = import.meta.env.VITE_API_URL || 'http://localhost:5000/api';
 
 export interface UploadedImage {
     key: string;
