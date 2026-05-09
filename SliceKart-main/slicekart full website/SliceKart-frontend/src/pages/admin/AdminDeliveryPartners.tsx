@@ -12,6 +12,7 @@ interface DeliveryPartner {
     image_url_signed?: string | null;
     is_available: boolean;
     active_orders: number;
+    completed_orders: number;
     created_at: string;
 }
 
@@ -298,6 +299,7 @@ export default function AdminDeliveryPartners() {
                                     <th className="text-left text-xs font-semibold text-slate-400 uppercase tracking-wider py-4 px-5">Rating</th>
                                     <th className="text-left text-xs font-semibold text-slate-400 uppercase tracking-wider py-4 px-5">Status</th>
                                     <th className="text-left text-xs font-semibold text-slate-400 uppercase tracking-wider py-4 px-5">Active Orders</th>
+                                    <th className="text-left text-xs font-semibold text-slate-400 uppercase tracking-wider py-4 px-5">Completed Orders</th>
                                     <th className="text-left text-xs font-semibold text-slate-400 uppercase tracking-wider py-4 px-5">Joined</th>
                                     <th className="text-center text-xs font-semibold text-slate-400 uppercase tracking-wider py-4 px-5">Actions</th>
                                 </tr>
@@ -349,9 +351,14 @@ export default function AdminDeliveryPartners() {
                                             </button>
                                         </td>
                                         <td className="py-4 px-5">
-                                            <span className={`text-sm font-semibold ${partner.active_orders > 0 ? 'text-amber-400' : 'text-slate-400'}`}>
-                                                {partner.active_orders}
-                                            </span>
+                                        <span className={`text-sm font-semibold ${partner.active_orders > 0 ? 'text-amber-400' : 'text-slate-400'}`}>
+                                        {partner.active_orders}
+                                        </span>
+                                        </td>
+                                        <td className="py-4 px-5">
+                                        <span className={`text-sm font-semibold ${partner.completed_orders > 0 ? 'text-emerald-400' : 'text-slate-400'}`}>
+                                        {partner.completed_orders}
+                                        </span>
                                         </td>
                                         <td className="py-4 px-5">
                                             <span className="text-slate-400 text-sm">{formatDate(partner.created_at)}</span>
