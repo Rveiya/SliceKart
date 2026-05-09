@@ -846,9 +846,33 @@ router.get("/orders", async (req, res, next) => {
             query(countQuery, countParams)
         ]);
 
+        // Fetch order items for each order
+        const orderIds = ordersResult.rows.map(o => o.id);
+        let orderItemsMap = {};
+        if (orderIds.length > 0) {
+            const itemsResult = await query(
+                `SELECT oi.order_id, oi.quantity, p.name as product_name
+                 FROM order_items oi
+                 LEFT JOIN products p ON oi.product_id = p.id
+                 WHERE oi.order_id = ANY($1)
+                 ORDER BY oi.order_id`,
+                [orderIds]
+            );
+            itemsResult.rows.forEach(item => {
+                if (!orderItemsMap[item.order_id]) {
+                    orderItemsMap[item.order_id] = [];
+                }
+                orderItemsMap[item.order_id].push(item);
+            });
+        }
+        const ordersWithItems = ordersResult.rows.map(o => ({
+            ...o,
+            items: orderItemsMap[o.id] || []
+        }));
+
         res.json({
             success: true,
-            orders: ordersResult.rows,
+            orders: ordersWithItems,
             pagination: {
                 page: parseInt(page),
                 limit: parseInt(limit),
