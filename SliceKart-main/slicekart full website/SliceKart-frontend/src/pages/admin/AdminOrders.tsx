@@ -19,6 +19,7 @@ interface Order {
     partner_id: string | null;
     partner_name: string | null;
     partner_phone: string | null;
+    items: Array<{ product_name: string; quantity: number }>;
 }
 
 interface DeliveryPartner {
@@ -302,6 +303,7 @@ export default function AdminOrders() {
                                 <tr>
                                     <th className="text-left text-xs font-semibold text-slate-400 uppercase tracking-wider py-4 px-5">Order ID</th>
                                     <th className="text-left text-xs font-semibold text-slate-400 uppercase tracking-wider py-4 px-5">Customer</th>
+                                    <th className="text-left text-xs font-semibold text-slate-400 uppercase tracking-wider py-4 px-5">Order Details</th>
                                     <th className="text-left text-xs font-semibold text-slate-400 uppercase tracking-wider py-4 px-5">Amount</th>
                                     <th className="text-left text-xs font-semibold text-slate-400 uppercase tracking-wider py-4 px-5">Status</th>
                                     <th className="text-left text-xs font-semibold text-slate-400 uppercase tracking-wider py-4 px-5">Payment</th>
@@ -349,6 +351,22 @@ export default function AdminOrders() {
                                                 <span className="text-slate-500 text-sm italic">Not assigned</span>
                                             )}
                                         </td>
+                                        <td className="py-4 px-5 max-w-[200px]">
+    {(order.items || []).length > 0 ? (
+        <div className="space-y-1">
+            {order.items.map((item, i) => (
+                <div key={i} className="flex items-center gap-1.5">
+                    <span className="w-5 h-5 bg-emerald-500/20 text-emerald-400 rounded text-xs flex items-center justify-center font-medium flex-shrink-0">
+                        {item.quantity}
+                    </span>
+                    <span className="text-white text-sm truncate">{item.product_name}</span>
+                </div>
+            ))}
+        </div>
+    ) : (
+        <span className="text-slate-500 text-sm">—</span>
+    )}
+</td>
                                         <td className="py-4 px-5">
                                             <span className="text-slate-400 text-sm">{formatDate(order.created_at)}</span>
                                         </td>
